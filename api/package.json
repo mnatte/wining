@@ -1,0 +1,47 @@
+{
+  "name": "wining-api",
+  "version": "1.0.0",
+  "description": "wining API",
+  "main": "index.js",
+  "author": "Martijn Natté",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "hapi": "^13.5.3",
+    "sqlite3": "^3.1.8"
+  },
+  "scripts": {
+    "createdb": "node data/createdb.js && mv wining.sqlite data/",
+    "populatedb": "cd data && node populatedb.js",
+    "lint": "eslint --fix *.js data handlers"
+  },
+  "eslintConfig": {
+      "env": {
+          "browser": false,
+          "es6": true,
+          "node": true
+      },
+      "extends": "eslint:recommended",
+      "parserOptions": {
+          "sourceType": "module"
+      },
+      "rules": {
+          "indent": [
+              "error",
+              "tab"
+          ],
+          "linebreak-style": [
+              "error",
+              "unix"
+          ],
+          "quotes": [
+              "error",
+              "double"
+          ],
+          "semi": [
+              "error",
+              "always"
+          ]
+      }
+  }
+}

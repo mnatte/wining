@@ -1,0 +1,47 @@
+{
+  "name": "wining",
+  "version": "1.0.0",
+  "description": "description",
+  "main": "server.js",
+  "author": "Martijn Natté",
+  "private": true,
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "hapi": "^13.x.x",
+    "inert": "3.x.x"
+  },
+  "scripts": {
+    "execute": "npm run server && open http://192.168.0.60:3001",
+    "lint": "eslint --fix *.js handlers"
+  },
+  "eslintConfig": {
+      "env": {
+          "browser": false,
+          "es6": true,
+          "node": true
+      },
+      "extends": "eslint:recommended",
+      "parserOptions": {
+          "sourceType": "module"
+      },
+      "rules": {
+          "indent": [
+              "error",
+              "tab"
+          ],
+          "linebreak-style": [
+              "error",
+              "unix"
+          ],
+          "quotes": [
+              "error",
+              "double"
+          ],
+          "semi": [
+              "error",
+              "always"
+          ]
+      }
+  }
+}

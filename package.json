@@ -1,0 +1,30 @@
+{
+  "name": "wining-builder",
+  "description": "project builder",
+  "version": "1.0.0",
+  "author": "Martijn Natte",
+  "private": true,
+  "scripts": {
+    "build:webapp": "cd webapp && npm run build",
+    "clean": "rm -rf build || true",
+    "create": "(mkdir build || true) && (mkdir build/public || true)",
+    "copy:vue": "cp webapp/build.js build/public",
+    "copy:server": "cp server/server.js build && cp server/routes.js build",
+    "copy:html": "cp webapp/index.html build",
+    "copy:api": "cp -R api build/api",
+    "copy:handlers": "cp -R server/handlers build/handlers",
+    "copy:node_modules": "cp -R server/node_modules build/node_modules",
+    "copy": "npm-run-all copy:*",
+    "prebuild": "npm run clean && npm run create",
+    "build": "npm-run-all build:*",
+    "postbuild": "npm run copy && cd build && node server",
+    "deploy": "replace '../api' 'api' build/server.js && mv build wining && mv wining /var/www && cd /var/www/wining && pm2 start --name wining server.js"
+  },
+  "dependencies":
+    { "//": "npm-run-all 4.0.1",
+    "//": "eslint 3.15.0",
+    "//": "eslint-config-standard 6.2.1",
+    "//": "eslint-loader 1.6.1",
+    "//": "eslint-plugin-promise 3.4.1",
+    "//": "eslint-plugin-standard 2.0.1" }
+}
