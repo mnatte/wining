@@ -1,105 +1,105 @@
 	<template>
 	  <div id="stock">
-	  	<div style="display: inline-block;">
-		  	<graph 
-		  		url="http://192.168.60:5000/api/stockByCountry" 
-		  		color="lightblue" 
-		  		groupBy="country" 
-		  		@bar-selected="showRegions"
-		  		title="Voorraad per land"
-		  		width="400"
-		  		height="250"
-		  		>
-		  	</graph>
-	  	</div>
-	  	<div style="display: inline-block;">
-		  	<graph 
-		  		:url="regionUrl"
-		  		groupBy="region" 
-		  		@bar-selected="showAppellations"
-		  		:title="selectedCountry"
-		  		v-if="showRegionsGraph"
+		<div style="display: inline-block;">
+			<graph 
+				url="http://192.168.60:5000/api/stockByCountry" 
+				color="lightblue" 
+				groupBy="country" 
+				@bar-selected="showRegions"
+				title="Voorraad per land"
 				width="400"
-		  		height="250"
-		  		>
-		  	</graph>
-	  	</div>
-	  	<div>
-		  	<graph 
-		  		:url="appellationUrl"
-		  		groupBy="appellation" 
-		  		@bar-selected="filterWinesByAppellation"
-		  		:title="selectedRegion"
-		  		v-if="showAppellationsGraph"
+				height="250"
+				>
+			</graph>
+		</div>
+		<div style="display: inline-block;">
+			<graph 
+				:url="regionUrl"
+				groupBy="region" 
+				@bar-selected="showAppellations"
+				:title="selectedCountry"
+				v-if="showRegionsGraph"
+				width="400"
+				height="250"
+				>
+			</graph>
+		</div>
+		<div>
+			<graph 
+				:url="appellationUrl"
+				groupBy="appellation" 
+				@bar-selected="filterWinesByAppellation"
+				:title="selectedRegion"
+				v-if="showAppellationsGraph"
 				width="800"
-		  		height="250"
-		  		>
-		  	</graph>
-	  	</div>
-	  	<ul v-show="showAppellationWines">
-	    	<li v-for="wine in winesByAppellation">
-              <wine-details :wine="wine" key="wine.id"></wine-details>
-        	</li>
-	    </ul>
-	  	<div>
-		  	<graph 
-		  		:url="domaineUrl"
-		  		groupBy="domaine" 
-		  		@bar-selected="filterWinesByDomaine"
-		  		:title="selectedRegion"
-		  		v-if="showDomainesGraph"
+				height="250"
+				>
+			</graph>
+		</div>
+		<ul v-show="showAppellationWines">
+			<li v-for="wine in winesByAppellation">
+			  <wine-details :wine="wine" key="wine.id"></wine-details>
+			</li>
+		</ul>
+		<div>
+			<graph 
+				:url="domaineUrl"
+				groupBy="domaine" 
+				@bar-selected="filterWinesByDomaine"
+				:title="selectedRegion"
+				v-if="showDomainesGraph"
 				width="1000"
-		  		height="300"
-		  		>
-		  	</graph>
-	  	</div>
-	    <ul v-show="showDomaineWines">
-	    	<li v-for="wine in winesByDomaine">
-              <wine-details :wine="wine" key="wine.id"></wine-details>
-        	</li>
-	    </ul>
+				height="300"
+				>
+			</graph>
+		</div>
+		<ul v-show="showDomaineWines">
+			<li v-for="wine in winesByDomaine">
+			  <wine-details :wine="wine" key="wine.id"></wine-details>
+			</li>
+		</ul>
 	  </div>
 	</template>
 
 	<script>
-		import WineDetails from './Wine.vue'
-		import Graph from './../Graph.vue'
-		import Form from './../forms/Form.js'
+		import WineDetails from "./Wine.vue";
+		import Graph from "./../Graph.vue";
+		import Form from "./../forms/Form.js";
 
 		export default {
-		components: { WineDetails, Graph },
-		  name: 'app',
-		  data () {
-		    return {
-		      wines: [],
-		      axios: require('axios'),
-		      ld: require('lodash'),
-		      showRegionsGraph: false,
-		      showAppellationsGraph: false,
-		      showDomainesGraph: false,
-		      showAppellationWines: false,
-		      showDomaineWines: false,
-		      regionUrl: '',
-		      appellationUrl: '',
-		      domaineUrl: '',
-		      selectedCountry: '',
-		      selectedRegion: '',
-		      selectedAppellation: '',
-		      selectedDomaine: '',
-		      form: new Form('http://192.168.60:5000/api', {}),
-		    }
-		  },
-		  computed: {
-		  	winesByAppellation: function() {
-		  		return this.wines.filter(w=>w.appellation == this.selectedAppellation);
-		  	},
-		  	winesByDomaine: function() {
-		  		return this.wines.filter(w=>w.domaine == this.selectedDomaine);
-		  	}
-		  },
-		  methods: {
-			getStock() {
-				this.form.get('stock')
+			components: { WineDetails, Graph },
+			name: "app",
+			data () {
+				return {
+					wines: [],
+					axios: require("axios"),
+					ld: require("lodash"),
+					showRegionsGraph: false,
+					showAppellationsGraph: false,
+					showDomainesGraph: false,
+					showAppellationWines: false,
+					showDomaineWines: false,
+					regionUrl: "",
+					appellationUrl: "",
+					domaineUrl: "",
+					selectedCountry: "",
+					selectedRegion: "",
+					selectedAppellation: "",
+					selectedDomaine: "",
+					form: new Form("http://192.168.60:5000/api", {}),
+				};
+			},
+			computed: {
+				winesByAppellation: function() {
+					return this.wines.filter(w=>w.appellation == this.selectedAppellation);
+				},
+				winesByDomaine: function() {
+					return this.wines.filter(w=>w.domaine == this.selectedDomaine);
+				}
+			},
+			methods: {
+				getStock() {
+					this.form.get("stock")
 					.then(response => { 
 						this.wines = response.sort((a,b) => { return a.appellation.localeCompare(b.appellation); });
 						// console.log(this.wines);
@@ -145,27 +145,27 @@
 					// console.log(appellation);
 				}
 			},
-		  mounted() {
-		  	// console.log('mounted');
-		  	this.getStock();
-		  	// this.groupedWines = this.ld.groupBy(this.wines, 'country');
-		  },
-		  created() {
-		  	// console.log('created');
-		      Event.listen('wines-changed', (data) => {
-		      	// console.log('wines-changed from Stock.vue');
-		      		this.wines = data;
-		   //      this.axios.get('http://192.168.60:4000/api/stock')
+			mounted() {
+				// console.log('mounted');
+				this.getStock();
+				// this.groupedWines = this.ld.groupBy(this.wines, 'country');
+			},
+			created() {
+			// console.log('created');
+				Event.listen("wines-changed", (data) => {
+				// console.log('wines-changed from Stock.vue');
+					this.wines = data;
+			//      this.axios.get('http://192.168.60:4000/api/stock')
 					// .then(response => { this.wines = response.data.sort((a,b) => { return a.appellation.localeCompare(b.appellation); })
 					// })
 					// this.getStock();
 				});
-		      Event.listen('domaines-changed', (data) => {
-		      	console.log('domaines-changed from Stock.vue');
-		      	this.getStock();
+				Event.listen("domaines-changed", () => {
+					console.log("domaines-changed from Stock.vue");
+					this.getStock();
 				});
-		  }
-		}
+			}
+		};
 	</script>
 
 	<style>

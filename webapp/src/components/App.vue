@@ -48,61 +48,61 @@
 
 <script>
   // import Wine from './Wine.vue'
-  import CountryListItem from './country/CountryListItem.vue'
-  import DomainListItem from './domain/DomainListItem.vue'
-  import Tabs from './Tabs.vue'
-  import Tab from './Tab.vue'
-  import Modal from './Modal.vue'
-  import DomainForm from './domain/DomainForm.vue'
-  import CountryForm from './country/CountryForm.vue'
-  import Stock from './wine/Stock.vue'
-  import BuySessionForm from './buys/BuySessionForm.vue'
+  import CountryListItem from "./country/CountryListItem.vue";
+  import DomainListItem from "./domain/DomainListItem.vue";
+  import Tabs from "./Tabs.vue";
+  import Tab from "./Tab.vue";
+  import Modal from "./Modal.vue";
+  import DomainForm from "./domain/DomainForm.vue";
+  import CountryForm from "./country/CountryForm.vue";
+  import Stock from "./wine/Stock.vue";
+  import BuySessionForm from "./buys/BuySessionForm.vue";
   
 
   export default {
-    components: { CountryListItem, DomainListItem, Tabs, Tab, Modal, DomainForm, CountryForm, Stock, BuySessionForm },
-    name: 'app',
-    data () {
-      return {
-        countries: [],
-        domaines: [],
+  	components: { CountryListItem, DomainListItem, Tabs, Tab, Modal, DomainForm, CountryForm, Stock, BuySessionForm },
+  	name: "app",
+  	data () {
+  		return {
+  			countries: [],
+  			domaines: [],
         // regions: [],
-        axios: require('axios'),
-        showForm: false,
-        newForm: false,
-        countryForm: false,
-        buyForm: false
-      }
-    },
-    computed: { 
-    },
-    methods: {
-      getCountries() {
-            this.axios.get('http://192.168.60:5000/api/countries')
-              .then(response => { this.countries = response.data });
-      },
-      getDomaines() {
-            this.axios.get('http://192.168.60:5000/api/domaines')
-              .then(response => { this.domaines = response.data });
-      }
-    },
-    mounted() {
-      this.getCountries();
-      this.getDomaines();
-    },
-    created() {
-      Event.listen('countries-changed', (countries) => 
+  			axios: require("axios"),
+  			showForm: false,
+  			newForm: false,
+  			countryForm: false,
+  			buyForm: false
+  		};
+  	},
+  	computed: { 
+  	},
+  	methods: {
+  		getCountries() {
+  			this.axios.get("http://192.168.60:5000/api/countries")
+              .then(response => { this.countries = response.data; });
+  		},
+  		getDomaines() {
+  			this.axios.get("http://192.168.60:5000/api/domaines")
+              .then(response => { this.domaines = response.data; });
+  		}
+  	},
+  	mounted() {
+  		this.getCountries();
+  		this.getDomaines();
+  	},
+  	created() {
+  		Event.listen("countries-changed", (countries) => 
         this.countries = countries
       );
-      Event.listen('domaines-changed', (domaines) => 
+  		Event.listen("domaines-changed", (domaines) => 
         this.domaines = domaines
       );
-      Event.listen('wines-changed', (wines) => 
+  		Event.listen("wines-changed", () => 
         this.buyForm = false
       );
-    }
+  	}
     
-  }
+  };
 </script>
 
 <style>

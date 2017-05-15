@@ -9,9 +9,9 @@
 
 	<script>
 		export default {
-			props: ['width', 'height', 'color'],
-		  name: 'wine-bottle'
-		}
+			props: ["width", "height", "color"],
+			name: "wine-bottle"
+		};
 	</script>
 
 	
